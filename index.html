@@ -7,12 +7,22 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <button class="rock">Rock</button>
+    <button class="paper">Paper</button>
+    <button class="scissors">Scissors</button>
+    <p></p>
 </body>
 <script>
 
   let choices = ["Rock", "Paper", "Scissors"];
   let score = 0;
+  let computerScore = 0;
+  let rounds = 1;
+
+  let p = document.querySelector("p");
+  let child = document.createElement("p");
+  child.textContent = "Select a button above: (Rock, Paper, or Scissors)";
+  p.appendChild(child);
 
   function getComputerChoice() {
     return choices[Math.floor(Math.random() * choices.length)];
@@ -23,6 +33,7 @@
       if (computerSelection.toLowerCase() == "rock") {
         return `Tie! ${playerSelection} ties with ${playerSelection}`;
       } else if (computerSelection.toLowerCase() == "paper") {
+        computerScore++;
         return `You Lose! ${computerSelection} beats ${playerSelection}`;
       } else {
         score++;
@@ -32,6 +43,7 @@
       if (computerSelection.toLowerCase() == "paper") {
         return `Tie! ${playerSelection} ties with ${playerSelection}`;
       } else if (computerSelection.toLowerCase() == "scissors") {
+        computerScore++;
         return `You Lose! ${computerSelection} beats ${playerSelection}`;
       } else {
         score++;
@@ -41,6 +53,7 @@
       if (computerSelection.toLowerCase() == "scissors") {
         return `Tie! ${playerSelection} ties with ${playerSelection}`;
       } else if (computerSelection.toLowerCase() == "rock") {
+        computerScore++;
         return `You Lose! ${computerSelection} beats ${playerSelection}`;
       } else {
         score++;
@@ -49,22 +62,79 @@
     }
   }
   
-  function game() {
-    let rounds = 5;
-    for (let i = 0; i < rounds; i++) {
-      let computerSelection = getComputerChoice();
-      console.log(playRound(playerSelection, computerSelection));
-    }
-    console.log(`The final score is ${score}`);
-    if (score > rounds/2) {
-      console.log("You are the Winner!")
-    } else {
-      console.log("You are the Loser!")
+  let btnRock = document.querySelector(".rock");
+  btnRock.addEventListener("click", () => {
+    round();
+    child = document.createElement("p");
+    child.textContent = "You selected Rock!";
+    p.appendChild(child);
+    game("Rock");
+  });
+
+  let btnPaper = document.querySelector(".paper");
+  btnPaper.addEventListener("click", () => {
+    round();
+    child = document.createElement("p");
+    child.textContent = "You selected Paper!";
+    p.appendChild(child);
+    game("Paper");
+  });
+
+  let btnScissors = document.querySelector(".scissors");
+  btnScissors.addEventListener("click", () => {
+    round();
+    child = document.createElement("p");
+    child.textContent = "You selected Scissors!";
+    p.appendChild(child);
+    game("Scissors");
+  });
+
+  function round() {
+    child = document.createElement("p");
+    child.textContent = `Round ${rounds}`;
+    p.appendChild(child);
+  }
+
+  function game(playerSelection) {
+    let computerSelection = getComputerChoice();
+    
+    child = document.createElement("p");
+    child.textContent = `Computer selected ${computerSelection}!`;
+    p.appendChild(child);
+
+    child = document.createElement("p");
+    child.textContent = playRound(playerSelection, computerSelection);
+    p.appendChild(child);
+    rounds++;
+
+    if (score >= 5 || computerScore >= 5) {
+      child = document.createElement("p");
+      child.textContent = `Your final score: ${score}, Computer final score: ${computerScore}`;
+      p.appendChild(child);
+      child = document.createElement("p");
+      
+      if (score > computerScore) {
+        child.textContent = "=== You are the Winner! :) ===";
+      } else {
+        child.textContent = "=== You are the Loser! :( ===";
+      }
+      p.appendChild(child);
+
+
+      child = document.createElement("p");
+      child.textContent = `Play again...`;
+      p.appendChild(child);
+      score = 0;
+      computerScore = 0;
+      rounds = 1;
+
     }
   }
 
-  const playerSelection = prompt("Enter an option: (Rock, Paper, or Scissors)");
-  game();
+  // const playerSelection = prompt("Enter an option: (Rock, Paper, or Scissors)");
+  
+
+  // game();
 
 </script>
 </html>
